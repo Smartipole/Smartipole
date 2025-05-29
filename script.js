@@ -257,7 +257,7 @@ async function handleFormSubmission(e) {
         console.log('🔗 Sending to URL:', GAS_WEBHOOK_URL);
 
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 seconds timeout
+        const timeoutId = setTimeout(() => controller.abort(), 50000); // 50 seconds timeout
 
         const response = await fetch(GAS_WEBHOOK_URL, {
             method: 'POST',
