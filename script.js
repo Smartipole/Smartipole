@@ -249,6 +249,12 @@ async function handleFormSubmission(e) {
     try {
         const formData = new FormData(form);
         const params = new URLSearchParams();
+        
+        // ตรวจสอบว่ามี formSource หรือไม่ และเพิ่มถ้าไม่มี
+        if (!formData.has('formSource')) {
+            formData.append('formSource', 'vercelUserInfoForm');
+        }
+        
         for (let [key, value] of formData.entries()) {
             params.append(key, value);
         }
@@ -262,13 +268,12 @@ async function handleFormSubmission(e) {
         const response = await fetch(GAS_WEBHOOK_URL, {
             method: 'POST',
             mode: 'cors',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded', },
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: params,
             signal: controller.signal
         });
 
         clearTimeout(timeoutId);
-        // setLoadingState(false) will be called after parsing response or in catch/finally
 
         console.log('📥 Response received: Status ' + response.status);
         const responseText = await response.text();
@@ -280,14 +285,14 @@ async function handleFormSubmission(e) {
             console.log('✅ Parsed JSON response:', data);
         } catch (parseError) {
             console.error('❌ Failed to parse JSON:', parseError);
-            if (responseText.toLowerCase().includes('success') || response.status === 200) { // Handle simple text success from GAS
-                data = { status: 'success', message: 'บันทึกข้อมูลเรียบร้อยแล้ว (แต่การตอบกลับไม่ใช่ JSON)' };
+            if (responseText.toLowerCase().includes('success') || response.status === 200) {
+                data = { status: 'success', message: 'บันทึกข้อมูลเรียบร้อยแล้ว กรุณากลับไปที่ LINE เพื่อดำเนินการต่อ' };
             } else {
                 throw new Error('การตอบกลับจากเซิร์ฟเวอร์ไม่ถูกต้องหรือไม่ใช่รูปแบบ JSON: ' + responseText.substring(0,150) + "...");
             }
         }
         
-        setLoadingState(false); // Hide loading modal now that we have a response
+        setLoadingState(false);
 
         if (data.status === 'success') {
             handleSuccessResponse(data.message || 'บันทึกข้อมูลเรียบร้อยแล้ว กรุณากลับไปที่ LINE เพื่อดำเนินการต่อ');
@@ -296,7 +301,7 @@ async function handleFormSubmission(e) {
         }
 
     } catch (error) {
-        setLoadingState(false); // Ensure loading modal is hidden on error
+        setLoadingState(false);
         console.error('💥 Form submission error:', error);
         let detailedErrorMessage = error.message;
         if (error.name === 'AbortError') {
@@ -314,7 +319,7 @@ function handleSuccessResponse(message) {
     console.log('✅ Handling success response with modal');
     if (form) {
         form.style.display = 'none'; // Hide form
-        // Optionally hide other elements like header/notice if you want a clean success page
+        // ซ่อนองค์ประกอบอื่นๆ เพื่อให้หน้าดูสะอาดขึ้น
         const header = document.querySelector('.header');
         const notice = document.querySelector('.notice');
         const footer = document.querySelector('.footer');
