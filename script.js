@@ -291,18 +291,11 @@ async function handleFormSubmission(e) {
 function handleSuccessResponse(message) {
     console.log('✅ Handling success response');
     
-    // Show success message
-    successMessage.textContent = '✅ ' + message;
-    successMessage.style.display = 'block';
-    
-    // Hide form
+    // Hide form immediately
     form.style.display = 'none';
     
-    // Auto redirect after 3 seconds
-    setTimeout(() => {
-        console.log('🔄 Auto redirecting...');
-        redirectToLine();
-    }, 3000);
+    // Show success popup modal
+    showSuccessModal(message || 'บันทึกข้อมูลเรียบร้อยแล้ว');
 }
 
 function handleErrorResponse(errorMessage) {
@@ -361,7 +354,10 @@ function redirectToLine() {
     try {
         // Method 1: Try to close the window (works if opened by script)
         console.log('🔄 Trying to close window...');
-        window.close();
+        if (window.opener) {
+            window.close();
+            return;
+        }
     } catch (e) {
         console.log('❌ Cannot close window:', e.message);
     }
@@ -377,12 +373,92 @@ function redirectToLine() {
         console.log('❌ Cannot go back in history:', e.message);
     }
     
-    // Method 3: Redirect to LINE
+    // Method 3: Redirect to LINE (fallback)
     try {
         console.log('🔄 Redirecting to LINE...');
-        window.location.href = 'https://line.me/';
+        // Try LINE app first, then fallback to web
+        window.location.href = 'line://';
+        
+        // Fallback to web LINE after a short delay
+        setTimeout(() => {
+            window.location.href = 'https://line.me/';
+        }, 1000);
     } catch (e) {
         console.log('❌ Cannot redirect to LINE:', e.message);
+    }
+}
+
+// =================================================================================
+// SUCCESS MODAL FUNCTIONS
+// =================================================================================
+function showSuccessModal(message) {
+    // Create modal HTML
+    const modalHTML = `
+        <div id="successModal" class="modal-overlay">
+            <div class="modal-container">
+                <div class="modal-content">
+                    <div class="success-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="9 12l2 2 4-4"/>
+                        </svg>
+                    </div>
+                    <h2 class="modal-title">สำเร็จ!</h2>
+                    <p class="modal-message">${message}</p>
+                    <p class="modal-submessage">ระบบจะนำท่านกลับไปยัง LINE ในอีกไม่กี่วินาที</p>
+                    <div class="countdown-container">
+                        <div class="countdown-circle">
+                            <span id="countdownNumber">3</span>
+                        </div>
+                    </div>
+                    <button id="closeModalBtn" class="modal-close-btn">
+                        กลับไป LINE ทันที
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Add modal to body
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    
+    // Get modal elements
+    const modal = document.getElementById('successModal');
+    const closeBtn = document.getElementById('closeModalBtn');
+    const countdownElement = document.getElementById('countdownNumber');
+    
+    // Show modal with animation
+    setTimeout(() => {
+        modal.classList.add('show');
+    }, 100);
+    
+    // Countdown timer
+    let countdown = 3;
+    const countdownInterval = setInterval(() => {
+        countdown--;
+        if (countdownElement) {
+            countdownElement.textContent = countdown;
+        }
+        
+        if (countdown <= 0) {
+            clearInterval(countdownInterval);
+            closeModalAndRedirect();
+        }
+    }, 1000);
+    
+    // Close button event
+    closeBtn.addEventListener('click', () => {
+        clearInterval(countdownInterval);
+        closeModalAndRedirect();
+    });
+    
+    // Close modal function
+    function closeModalAndRedirect() {
+        modal.classList.add('hide');
+        setTimeout(() => {
+            modal.remove();
+            redirectToLine();
+        }, 500);
     }
 }
 
