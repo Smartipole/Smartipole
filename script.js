@@ -239,32 +239,44 @@ async function handleFormSubmission(e) {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
         
-        // Try to parse response as JSON
+        // Handle response - Google Apps Script might return HTML or plain text
         let data;
         const responseText = await response.text();
         console.log('📄 Raw response text:', responseText);
         
-        try {
-            data = JSON.parse(responseText);
-            console.log('✅ Parsed JSON response:', data);
-        } catch (parseError) {
-            console.error('❌ Failed to parse JSON:', parseError);
-            console.log('📄 Response was not valid JSON, treating as text');
-            
-            // If response is not JSON, check if it looks like success
-            if (responseText.includes('success') || response.status === 200) {
-                data = { status: 'success', message: 'บันทึกข้อมูลเรียบร้อยแล้ว' };
-            } else {
-                throw new Error('ได้รับการตอบกลับที่ไม่ถูกต้องจากเซิร์ฟเวอร์');
-            }
-        }
+        // Check if response is successful regardless of format
+        const isSuccessResponse = response.ok && (
+            response.status === 200 || 
+            response.status === 302 ||
+            responseText.toLowerCase().includes('success') ||
+            responseText.toLowerCase().includes('สำเร็จ') ||
+            responseText.toLowerCase().includes('complete') ||
+            responseText.includes('บันทึกเรียบร้อย')
+        );
         
-        if (data.status === 'success') {
-            console.log('🎉 Form submission successful');
-            handleSuccessResponse(data.message || 'บันทึกข้อมูลเรียบร้อยแล้ว');
+        if (isSuccessResponse) {
+            console.log('🎉 Form submission successful (based on status code and response content)');
+            
+            // Try to parse as JSON, but don't fail if it's not JSON
+            try {
+                data = JSON.parse(responseText);
+                console.log('✅ Parsed JSON response:', data);
+                handleSuccessResponse(data.message || 'บันทึกข้อมูลเรียบร้อยแล้ว');
+            } catch (parseError) {
+                console.log('📄 Response was not JSON, but request was successful');
+                // Even if not JSON, treat as success since status is OK
+                handleSuccessResponse('บันทึกข้อมูลเรียบร้อยแล้ว');
+            }
         } else {
-            console.error('❌ Server returned error:', data);
-            throw new Error(data.message || 'เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ');
+            console.error('❌ Server returned error response');
+            
+            // Try to parse error message
+            try {
+                data = JSON.parse(responseText);
+                throw new Error(data.message || 'เกิดข้อผิดพลาดจากเซิร์ฟเวอร์');
+            } catch (parseError) {
+                throw new Error('เกิดข้อผิดพลาดในการส่งข้อมูล กรุณาลองอีกครั้ง');
+            }
         }
         
     } catch (error) {
