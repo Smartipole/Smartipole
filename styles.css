@@ -30,13 +30,13 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
-    padding: 1rem;
+    padding: 1.5rem;
     color: var(--text-primary);
     line-height: 1.6;
 }
 
 .app-container {
-    max-width: 420px;
+    max-width: 480px;
     margin: 0 auto;
     background: var(--bg-primary);
     border-radius: var(--radius-xl);
@@ -59,7 +59,7 @@ body {
 .header {
     background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
     color: white;
-    padding: 2rem 1.5rem 1.5rem;
+    padding: 2.5rem 2rem 2rem;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -82,33 +82,33 @@ body {
 }
 
 .header h1 {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     font-weight: 700;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
     position: relative;
     z-index: 1;
 }
 
 .header p {
     opacity: 0.9;
-    font-size: 0.875rem;
+    font-size: 1rem;
     position: relative;
     z-index: 1;
 }
 
 .form-container {
-    padding: 2rem 1.5rem;
+    padding: 2.5rem 2rem;
 }
 
 .notice {
     background: linear-gradient(135deg, #fef3c7, #fde68a);
     border: 1px solid #f59e0b;
     border-radius: var(--radius-md);
-    padding: 1rem;
-    margin-bottom: 1.5rem;
+    padding: 1.25rem;
+    margin-bottom: 2rem;
     display: flex;
     align-items: flex-start;
-    gap: 0.75rem;
+    gap: 1rem;
     animation: fadeIn 0.8s ease-out 0.2s both;
 }
 
@@ -118,21 +118,21 @@ body {
 }
 
 .notice-icon {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     color: var(--warning-color);
     flex-shrink: 0;
     margin-top: 2px;
 }
 
 .notice-text {
-    font-size: 0.875rem;
+    font-size: 0.9rem;
     color: #92400e;
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
 .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
     animation: fadeInUp 0.6s ease-out both;
 }
 
@@ -158,25 +158,27 @@ body {
 .form-label {
     display: block;
     font-weight: 600;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
     color: var(--text-primary);
-    font-size: 0.875rem;
+    font-size: 1rem;
     transition: color 0.3s ease;
 }
 
 .required {
     color: var(--error-color);
-    margin-left: 2px;
+    margin-left: 3px;
+    font-weight: 700;
 }
 
 .input-container {
     position: relative;
+    margin-bottom: 0.5rem;
 }
 
 .form-input,
 .form-select {
     width: 100%;
-    padding: 0.875rem 1rem;
+    padding: 1rem 1.25rem;
     border: 2px solid var(--border-color);
     border-radius: var(--radius-md);
     font-size: 1rem;
@@ -185,13 +187,14 @@ body {
     color: var(--text-primary);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     appearance: none;
+    min-height: 56px;
 }
 
 .form-input:focus,
 .form-select:focus {
     outline: none;
     border-color: var(--border-focus);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
     transform: translateY(-1px);
 }
 
@@ -202,27 +205,34 @@ body {
 .form-input::placeholder {
     color: var(--text-secondary);
     transition: opacity 0.3s ease;
+    font-size: 0.95rem;
 }
 
 .form-input:focus::placeholder {
-    opacity: 0.5;
+    opacity: 0.6;
 }
 
 .form-select {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-    background-position: right 0.75rem center;
+    background-position: right 1rem center;
     background-repeat: no-repeat;
     background-size: 1.5em 1.5em;
-    padding-right: 2.5rem;
+    padding-right: 3rem;
+    cursor: pointer;
+}
+
+.form-select option {
+    font-size: 1rem;
+    padding: 0.5rem;
 }
 
 .input-icon {
     position: absolute;
-    left: 0.75rem;
+    left: 1rem;
     top: 50%;
     transform: translateY(-50%);
-    width: 1.125rem;
-    height: 1.125rem;
+    width: 1.25rem;
+    height: 1.25rem;
     color: var(--text-secondary);
     pointer-events: none;
     transition: color 0.3s ease;
@@ -232,21 +242,27 @@ body {
     color: var(--border-focus);
 }
 
+/* Adjust padding for inputs with icons */
+.input-container:has(.input-icon) .form-input {
+    padding-left: 3rem;
+}
+
 .submit-btn {
     width: 100%;
     background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
     color: white;
     border: none;
-    padding: 1rem 1.5rem;
+    padding: 1.25rem 1.5rem;
     border-radius: var(--radius-md);
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     animation: fadeInUp 0.6s ease-out 0.7s both;
+    min-height: 60px;
 }
 
 .submit-btn:hover {
@@ -268,14 +284,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 0.75rem;
     transition: opacity 0.3s ease;
 }
 
 .loading-spinner {
-    width: 20px;
-    height: 20px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
     border-top-color: white;
     animation: spin 1s linear infinite;
@@ -287,22 +303,32 @@ body {
 }
 
 .footer {
-    padding: 1rem 1.5rem;
+    padding: 1.5rem 2rem;
     background: var(--bg-secondary);
     text-align: center;
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     color: var(--text-secondary);
     border-top: 1px solid var(--border-color);
+    line-height: 1.8;
+}
+
+.footer p {
+    margin-bottom: 0.5rem;
+}
+
+.footer p:last-child {
+    margin-bottom: 0;
 }
 
 .success-message,
 .error-message {
-    padding: 1rem;
+    padding: 1.25rem;
     border-radius: var(--radius-md);
-    margin: 1rem 0;
+    margin: 1.5rem 0;
     font-weight: 500;
     display: none;
     animation: slideDown 0.5s ease-out;
+    font-size: 1rem;
 }
 
 @keyframes slideDown {
@@ -318,19 +344,20 @@ body {
 
 .success-message {
     background: #d1fae5;
-    border: 1px solid #a7f3d0;
+    border: 2px solid #a7f3d0;
     color: #065f46;
 }
 
 .error-message {
     background: #fee2e2;
-    border: 1px solid #fecaca;
+    border: 2px solid #fecaca;
     color: #991b1b;
 }
 
 .form-group.error .form-input,
 .form-group.error .form-select {
     border-color: var(--error-color);
+    background-color: #fef2f2;
     animation: shake 0.5s ease-in-out;
 }
 
@@ -342,13 +369,106 @@ body {
 
 .error-text {
     color: var(--error-color);
-    font-size: 0.75rem;
-    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
     display: none;
+    font-weight: 500;
+    padding-left: 0.25rem;
 }
 
 .form-group.error .error-text {
     display: block;
+}
+
+/* Improved focus states */
+.form-input:focus,
+.form-select:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+/* Better spacing for phone screens */
+@media (max-width: 480px) {
+    body {
+        padding: 1rem;
+    }
+    
+    .app-container {
+        border-radius: var(--radius-lg);
+        max-width: 100%;
+    }
+    
+    .header {
+        padding: 2rem 1.5rem 1.5rem;
+    }
+    
+    .header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .header p {
+        font-size: 0.9rem;
+    }
+    
+    .form-container {
+        padding: 2rem 1.5rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1.75rem;
+    }
+    
+    .form-input,
+    .form-select {
+        padding: 0.875rem 1rem;
+        font-size: 16px; /* Prevents zoom on iOS */
+        min-height: 52px;
+    }
+    
+    .input-container:has(.input-icon) .form-input {
+        padding-left: 2.75rem;
+    }
+    
+    .form-select {
+        padding-right: 2.75rem;
+    }
+    
+    .submit-btn {
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+        min-height: 56px;
+    }
+    
+    .notice {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .footer {
+        padding: 1.25rem 1.5rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 360px) {
+    .form-container {
+        padding: 1.5rem 1rem;
+    }
+    
+    .header {
+        padding: 1.5rem 1rem;
+    }
+    
+    .form-input,
+    .form-select {
+        padding: 0.75rem;
+        min-height: 48px;
+    }
+    
+    .input-container:has(.input-icon) .form-input {
+        padding-left: 2.5rem;
+    }
 }
 
 /* Dark mode support */
@@ -360,35 +480,40 @@ body {
         --text-secondary: #94a3b8;
         --border-color: #475569;
     }
-}
-
-/* Mobile optimizations */
-@media (max-width: 480px) {
-    body {
-        padding: 0.5rem;
+    
+    .form-input,
+    .form-select {
+        background: var(--bg-primary);
+        color: var(--text-primary);
     }
     
-    .app-container {
-        border-radius: var(--radius-lg);
-    }
-    
-    .header {
-        padding: 1.5rem 1rem 1rem;
-    }
-    
-    .form-container {
-        padding: 1.5rem 1rem;
+    .form-group.error .form-input,
+    .form-group.error .form-select {
+        background-color: #2d1b1b;
     }
 }
 
 /* Focus visible for accessibility */
 .submit-btn:focus-visible {
-    outline: 2px solid var(--primary-color);
+    outline: 3px solid rgba(59, 130, 246, 0.5);
     outline-offset: 2px;
 }
 
 .form-input:focus-visible,
 .form-select:focus-visible {
-    outline: 2px solid var(--border-focus);
+    outline: 3px solid rgba(59, 130, 246, 0.5);
     outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .form-input,
+    .form-select {
+        border-width: 3px;
+    }
+    
+    .form-input:focus,
+    .form-select:focus {
+        border-width: 3px;
+    }
 }
