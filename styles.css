@@ -517,3 +517,217 @@ body {
         border-width: 3px;
     }
 }
+
+/* =================================================================================
+   SUCCESS MODAL STYLES
+   ================================================================================= */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-overlay.hide {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+.modal-container {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    margin: 1rem;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.25),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    transform: translateY(20px) scale(0.95);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal-overlay.show .modal-container {
+    transform: translateY(0) scale(1);
+}
+
+.modal-content {
+    text-align: center;
+}
+
+.success-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, #10b981, #059669);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: successPulse 0.6s ease-out;
+}
+
+@keyframes successPulse {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.success-icon svg {
+    width: 40px;
+    height: 40px;
+    color: white;
+    stroke-width: 3;
+}
+
+.modal-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+.modal-message {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+    animation: fadeInUp 0.6s ease-out 0.3s both;
+}
+
+.modal-submessage {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    opacity: 0.8;
+    animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+.countdown-container {
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.6s ease-out 0.5s both;
+}
+
+.countdown-circle {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(37, 99, 235, 0);
+    }
+}
+
+.countdown-circle span {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+}
+
+.modal-close-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--accent-color), #059669);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: fadeInUp 0.6s ease-out 0.6s both;
+}
+
+.modal-close-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+}
+
+.modal-close-btn:active {
+    transform: translateY(0);
+}
+
+/* Mobile responsive for modal */
+@media (max-width: 480px) {
+    .modal-container {
+        margin: 1rem;
+        padding: 1.5rem;
+        border-radius: 16px;
+    }
+    
+    .success-icon {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 1.25rem;
+    }
+    
+    .success-icon svg {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .modal-title {
+        font-size: 1.5rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .modal-message {
+        font-size: 1rem;
+    }
+    
+    .modal-submessage {
+        font-size: 0.85rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .countdown-circle {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .countdown-circle span {
+        font-size: 1.25rem;
+    }
+    
+    .countdown-container {
+        margin-bottom: 1.5rem;
+    }
+}
